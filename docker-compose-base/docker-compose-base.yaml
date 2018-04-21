@@ -41,15 +41,16 @@ services:
       - CORE_PEER_ID=peer0.org1.${DOMAIN}
       - CORE_PEER_ADDRESS=peer0.org1.${DOMAIN}:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/msp
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
       # TIME ZONE
       - TZ=${TIME_ZONE}
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     volumes:
       - /var/run/:/host/var/run/
-      - ../crypto-config/peerOrganizations/org1.${DOMAIN}/users/Admin@org1.${DOMAIN}/msp:/opt/gopath/src/github.com/hyperledger/fabric/peer/msp
-      - ../${CHANNEL_ARTIFACTS_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/peer
+      - ../${CHANNEL_ARTIFACTS_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/${CHANNEL_ARTIFACTS_PATH}
+      - ../crypto-config/peerOrganizations/org1.${DOMAIN}/peers/peer0.org1.${DOMAIN}/msp:/etc/hyperledger/peer/msp
+      - ../crypto-config/peerOrganizations/org1.${DOMAIN}/users:/etc/hyperledger/msp/users
     ports:
       - 7051:7051
       - 7053:7053

@@ -114,10 +114,10 @@ function networkUp () {
     sleep $TIMEOUT
 
     # Create channel
-    docker exec peer0.org1.${DOMAIN} peer channel create -o orderer.$DOMAIN:7050 -c $CHANNEL_NAME -f /opt/gopath/src/github.com/hyperledger/fabric/peer/$CHANNEL_FILE_NAME
+    docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.${DOMAIN}/msp" peer0.org1.${DOMAIN} peer channel create -o orderer.$DOMAIN:7050 -c $CHANNEL_NAME -f $CHANNEL_ARTIFACTS_PATH/$CHANNEL_FILE_NAME
 
     # Join peer0.org1 to the channel.
-    docker exec peer0.org1.${DOMAIN} peer channel join -b $CHANNEL_NAME.block
+    docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.${DOMAIN}/msp" peer0.org1.${DOMAIN} peer channel join -b $CHANNEL_NAME.block
 }
 
 # Tear down running network
