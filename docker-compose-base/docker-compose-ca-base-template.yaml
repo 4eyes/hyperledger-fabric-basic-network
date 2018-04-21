@@ -15,6 +15,8 @@ services:
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca.org1.${DOMAIN}
+      # TIME ZONE
+      - TZ=${TIME_ZONE}
     ports:
       - 7054:7054
     command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org1.${DOMAIN}-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY -b ${CA_USER_ENROLLMENT}:${CA_ENROLLMENT_SECRET} -d'

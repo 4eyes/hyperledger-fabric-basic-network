@@ -18,6 +18,8 @@ services:
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # TIME ZONE
+      - TZ=${TIME_ZONE}
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
@@ -40,12 +42,14 @@ services:
       - CORE_PEER_ADDRESS=peer0.org1.${DOMAIN}:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/msp
+      # TIME ZONE
+      - TZ=${TIME_ZONE}
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     volumes:
-        - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/org1.${DOMAIN}/users/Admin@org1.${DOMAIN}/msp:/opt/gopath/src/github.com/hyperledger/fabric/peer/msp
-        - ../${CHANNEL_ARTIFACTS_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/peer
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/org1.${DOMAIN}/users/Admin@org1.${DOMAIN}/msp:/opt/gopath/src/github.com/hyperledger/fabric/peer/msp
+      - ../${CHANNEL_ARTIFACTS_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/peer
     ports:
       - 7051:7051
       - 7053:7053
