@@ -1,0 +1,38 @@
+#
+# Copyright 4eyes GmbH All Rights Reserved.
+#
+# This file contains all configured containers which needed to build/start the network.
+# The configurations are extend from the docker-compose-base files which located in docker-compose-base folder
+#
+
+version: '2'
+
+networks:
+  fabric:
+
+services:
+
+  ca.org1:
+    extends:
+      file: docker-compose-base/docker-compose-ca-base.yaml
+      service: ca.org1
+    networks:
+      - fabric
+
+  orderer:
+    extends:
+      file: docker-compose-base/docker-compose-base.yaml
+      service: orderer
+    depends_on:
+      - ca.org1
+    networks:
+      - fabric
+
+  peer0.org1:
+    extends:
+      file: docker-compose-base/docker-compose-base.yaml
+      service: peer0.org1
+    depends_on:
+      - orderer
+    networks:
+      - fabric

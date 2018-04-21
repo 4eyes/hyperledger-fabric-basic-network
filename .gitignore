@@ -1,0 +1,31 @@
+# Hyperledger Fabric files            #
+#######################################
+bin
+channel-artifacts
+crypto-config
+crypto-config.yaml
+configtx.yaml
+
+# Docker generated files              #
+#######################################
+docker-compose-base/docker-compose-ca-base.yaml
+docker-compose.yaml
+docker-compose-cli.yaml
+
+# IDE folder                          #
+#######################################
+.idea
+
+# OS generated files                  #
+#######################################
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Include all .htaccess & .gitkeep    #
+#######################################
+!.htaccess
+!.gitkeep

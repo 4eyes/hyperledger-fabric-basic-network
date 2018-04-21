@@ -1,0 +1,51 @@
+#
+# Copyright 4eyes GmbH All Rights Reserved.
+#
+# This file contains all base configurations for all containers except the ca container
+#
+
+version: '2'
+
+services:
+
+  orderer:
+    container_name: orderer.${DOMAIN}
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_LISTENADDRESS=orderer.${DOMAIN}
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ../${CHANNEL_ARTIFACTS_PATH}/${GENESIS_FILE_NAME}:/var/hyperledger/orderer/orderer.genesis.block
+      - ../crypto-config/ordererOrganizations/${DOMAIN}/orderers/orderer.${DOMAIN}/msp:/var/hyperledger/orderer/msp
+    ports:
+      - 7050:7050
+
+  peer0.org1:
+    container_name: peer0.org1.${DOMAIN}
+    image: hyperledger/fabric-peer
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # the following setting starts chaincode containers on the same
+      # bridge network as the peers
+      # https://docs.docker.com/compose/networking/
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_fabric
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_ID=peer0.org1.${DOMAIN}
+      - CORE_PEER_ADDRESS=peer0.org1.${DOMAIN}:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/org1.${DOMAIN}/users/Admin@org1.${DOMAIN}/msp:/opt/gopath/src/github.com/hyperledger/fabric/peer/msp
+        - ../${CHANNEL_ARTIFACTS_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/peer
+    ports:
+      - 7051:7051
+      - 7053:7053
