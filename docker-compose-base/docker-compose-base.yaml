@@ -52,6 +52,7 @@ services:
       - ../${CHANNEL_ARTIFACTS_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/${CHANNEL_ARTIFACTS_PATH}
       - ../crypto-config/peerOrganizations/org1.${DOMAIN}/peers/peer0.org1.${DOMAIN}/msp:/etc/hyperledger/peer/msp
       - ../crypto-config/peerOrganizations/org1.${DOMAIN}/users:/etc/hyperledger/msp/users
+      - ../chaincode/node:/chaincode/node
       - ../ledger/peer0.org1.${DOMAIN}:/var/hyperledger/production
     ports:
       - 7051:7051

@@ -15,7 +15,7 @@ clone this repo then:
 - $ ./network.sh -m download
 - $ ./network.sh -m up
 
-## Start or stop the netwotk (not for first time setup)
+## Start or stop the network (not for first time setup)
 - $ docker-compose start
 - $ docker-compose stop
 
