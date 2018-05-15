@@ -11,6 +11,7 @@ configtx.yaml
 docker-compose-base/docker-compose-ca-base.yaml
 docker-compose.yaml
 docker-compose-cli.yaml
+ledger
 
 # IDE folder                          #
 #######################################

@@ -12,15 +12,15 @@ You can modify several values in the .env file like the DOMAIN, TIME_ZONE, FABRI
 
 ## Start for first time
 clone this repo then:
-- $ cd hyperledger-fabric-basic-network
 - $ ./network.sh -m download
 - $ ./network.sh -m up
 
 ## Start or stop the netwotk (not for first time setup)
-- $ cd hyperledger-fabric-basic-network
 - $ docker-compose start
 - $ docker-compose stop
 
+### Recreate the containers without losing the data
+- $ ./network.sh -m recreate
+
 ## Clean and Remove the network 
-- $ cd hyperledger-fabric-basic-network
 - $ ./network.sh -m down

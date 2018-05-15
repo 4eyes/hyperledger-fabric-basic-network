@@ -45,6 +45,7 @@ function printHelp () {
   echo "      - 'download' - download fabric binaries and docker images"
   echo "      - 'up' - build the network: generate required certificates and genesis block & create all containers needed for the network"
   echo "      - 'down' - remove the network containers"
+  echo "      - 'recreate' - recreate containers"
 
 }
 
@@ -107,6 +108,10 @@ function networkUp () {
     generateCerts
     replacePrivateKey
     generateChannelArtifacts
+
+    # remove ledger data
+    rm -rf ./ledger
+
     docker-compose up -d
 
     # wait for Hyperledger Fabric to start
@@ -131,6 +136,9 @@ function networkDown () {
     rm -rf $CHANNEL_ARTIFACTS_PATH crypto-config crypto-config.yaml configtx.yaml
     # remove the docker-compose yaml files that was customized
     rm -f $COMPOSE_CA_FILE
+
+    # remove ledger data
+    rm -rf ./ledger
 }
 
 # Using docker-compose-ca-base-template.yaml, replace constants with private key file names
@@ -312,6 +320,11 @@ function generateChannelArtifacts() {
   fi
 }
 
+function recreateContainers() {
+    docker-compose down
+    docker-compose up -d
+}
+
 # Obtain the OS and Architecture string that will be used to select the correct
 # native binaries for your platform
 OS_ARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
@@ -348,6 +361,8 @@ if [ "$MODE" == "up" ]; then
   EXPMODE="Stopping"
   elif [ "$MODE" == "download" ]; then
   EXPMODE="download fabric binaries and docker images"
+  elif [ "$MODE" == "recreate" ]; then
+  EXPMODE="Recreating Containers"
 else
   printHelp
   exit 1
@@ -363,6 +378,8 @@ if [ "${MODE}" == "up" ]; then
   networkDown
   elif [ "${MODE}" == "download" ]; then
   download
+  elif [ "${MODE}" == "recreate" ]; then ## recreate containers
+  recreateContainers
 else
   printHelp
   exit 1
