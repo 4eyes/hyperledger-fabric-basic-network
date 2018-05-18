@@ -30,3 +30,6 @@ Thumbs.db
 #######################################
 !.htaccess
 !.gitkeep
+
+# ignore user-generated chaincode
+/chaincode

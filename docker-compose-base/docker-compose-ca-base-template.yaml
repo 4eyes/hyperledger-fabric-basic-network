@@ -23,3 +23,4 @@ services:
     volumes:
       - ../crypto-config/peerOrganizations/org1.${DOMAIN}/ca/:/etc/hyperledger/fabric-ca-server-config
       - ../ledger/ca.org1.${DOMAIN}:/etc/hyperledger/fabric-ca-server
+    restart: always
