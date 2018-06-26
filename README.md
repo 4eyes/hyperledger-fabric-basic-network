@@ -16,8 +16,8 @@ clone this repo then:
 - $ ./network.sh -m up
 
 ## Start or stop the network (not for first time setup)
-- $ docker-compose start
-- $ docker-compose stop
+- $ ./network.sh -m start
+- $ ./network.sh -m stop
 
 ### Recreate the containers without losing the data
 - $ ./network.sh -m recreate

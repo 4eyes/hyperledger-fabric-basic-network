@@ -46,6 +46,8 @@ function printHelp () {
   echo "      - 'up' - build the network: generate required certificates and genesis block & create all containers needed for the network"
   echo "      - 'down' - remove the network containers"
   echo "      - 'recreate' - recreate containers"
+  echo "      - 'start' - start the containers"
+  echo "      - 'stop' - stop the containers"
 
 }
 
@@ -325,6 +327,15 @@ function recreateContainers() {
     docker-compose up -d
 }
 
+function start() {
+    docker-compose start
+}
+
+
+function stop() {
+    docker-compose stop
+}
+
 # Obtain the OS and Architecture string that will be used to select the correct
 # native binaries for your platform
 OS_ARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
@@ -363,6 +374,10 @@ if [ "$MODE" == "up" ]; then
   EXPMODE="download fabric binaries and docker images"
   elif [ "$MODE" == "recreate" ]; then
   EXPMODE="Recreating Containers"
+  elif [ "$MODE" == "start" ]; then
+  EXPMODE="Starting Containers"
+  elif [ "$MODE" == "stop" ]; then
+  EXPMODE="Stopping Containers"
 else
   printHelp
   exit 1
@@ -380,6 +395,10 @@ if [ "${MODE}" == "up" ]; then
   download
   elif [ "${MODE}" == "recreate" ]; then ## recreate containers
   recreateContainers
+  elif [ "${MODE}" == "start" ]; then ## start containers
+  start
+  elif [ "${MODE}" == "stop" ]; then ## stop containers
+  stop
 else
   printHelp
   exit 1
