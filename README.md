@@ -1,5 +1,7 @@
 # 4eyes GmbH hyperledger fabric basic network
 
+[See our blog.4eyes.ch blog-post on how to run this network](https://blog.4eyes.ch/minimal-fabric-development-environment/)
+
 Note: these instructions are only for MACOS and Linux (Debian & Ubuntu)
 
 ## Prerequisites
